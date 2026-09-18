@@ -1,3 +1,4 @@
+require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 
@@ -14,6 +15,7 @@ const path = require("path");
   });
 
   const db = require("./database");
+  await db.connectDatabase();
   const Post = require("./models/Post");
 
   let User = null;
