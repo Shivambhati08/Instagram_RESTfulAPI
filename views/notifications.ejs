@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | Instagram</title>
+    <link rel="stylesheet" href="/notifications.css">
+</head>
+<body>
+    <main class="notifications-shell">
+        <header class="notifications-header">
+            <a class="notifications-brand" href="/home">Instagram</a>
+            <nav aria-label="Notifications navigation">
+                <a href="/home">Home</a>
+                <a href="/profile/<%= currentUser.username %>"><img src="<%= currentUser.avatar || '/assets/profile.png' %>" alt="Your profile"></a>
+            </nav>
+        </header>
+
+        <section class="notifications-card" aria-label="Notifications">
+            <div class="notifications-title-row">
+                <div><h1>Notifications</h1><p><span data-unread-count><%= unreadCount %></span> unread</p></div>
+                <% if (unreadCount) { %><button type="button" class="read-all-button">Mark all as read</button><% } %>
+            </div>
+
+            <div class="notification-status" role="status" aria-live="polite"></div>
+            <% if (!notifications.length) { %>
+                <div class="notifications-empty"><h2>No notifications yet</h2><p>Activity from your community will appear here.</p></div>
+            <% } else { %>
+                <div class="notification-list">
+                    <% for (let notification of notifications) { %>
+                        <article class="notification-item <%= notification.read ? '' : 'unread' %>" data-notification-id="<%= notification.id %>">
+                            <a href="/profile/<%= notification.actor.username %>"><img src="<%= notification.actor.avatar || '/assets/profile.png' %>" alt="<%= notification.actor.username %> profile picture"></a>
+                            <div class="notification-copy">
+                                <p><a href="/profile/<%= notification.actor.username %>"><strong><%= notification.actor.username %></strong></a>
+                                <% if (notification.type === 'follow') { %> started following you.<% } %>
+                                <% if (notification.type === 'like') { %> liked your post.<% } %>
+                                <% if (notification.type === 'comment') { %> commented on your post.<% } %>
+                                <time datetime="<%= notification.createdAt %>"><%= notification.formattedTimestamp %></time></p>
+                                <% if ((notification.type === 'like' || notification.type === 'comment') && notification.postExists) { %>
+                                    <a class="notification-post-link" href="/home/<%= notification.postId %>/view">View post<% if (notification.postImage) { %><img src="<%= notification.postImage %>" alt=""><% } %></a>
+                                <% } else if (notification.type !== 'follow') { %>
+                                    <span class="notification-deleted">The post is no longer available.</span>
+                                <% } %>
+                            </div>
+                            <% if (!notification.read) { %><button type="button" class="mark-read-button" data-notification-id="<%= notification.id %>">Mark read</button><% } %>
+                        </article>
+                    <% } %>
+                </div>
+            <% } %>
+        </section>
+    </main>
+    <script src="/notifications.js"></script>
+</body>
+</html>

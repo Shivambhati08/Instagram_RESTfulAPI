@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/asset 0.png">
+    <title>Instagram • Post</title>
+    <link rel="stylesheet" href="/view.css">
+</head>
+
+<body>
+    <div class="feed-status" role="status" aria-live="polite"></div>
+    <main class="post-page">
+        <aside class="detail-sidebar" aria-label="Main navigation">
+            <div class="detail-brand">
+                <img src="/assets/ig.png" alt="Instagram logo">
+            </div>
+            <nav class="detail-nav" aria-label="Navigation">
+                <a href="/home">Home</a>
+                <a href="/search">Search</a>
+                <a href="/explore">Explore</a>
+                <span class="disabled-nav-item" aria-disabled="true">Reels</span>
+                <span class="disabled-nav-item" aria-disabled="true">Messages</span>
+                <a href="/notifications">Notifications</a>
+                <a href="/new">Create</a>
+                <a href="/profile/<%= currentUser.username %>">Profile</a>
+            </nav>
+        </aside>
+
+        <section class="post-view" aria-label="Post detail view">
+            <div class="post-media">
+                <% if (post.imageUrl) { %>
+                    <img src="<%= post.imageUrl %>" alt="<%= post.author.username %> post image" onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
+                <% } %>
+                <div class="missing-image" <%= post.imageUrl ? 'hidden' : '' %>>This post has no image</div>
+            </div>
+
+            <div class="post-aside">
+                <header class="view-header">
+                    <div class="user-meta">
+                        <img src="<%= post.author.avatar %>" class="person" alt="<%= post.author.username %> profile picture">
+                        <div>
+                            <h3><%= post.author.username %></h3>
+                            <time datetime="<%= post.createdAt %>"><%= post.formattedTimestamp %></time>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="comment-list">
+                    <div class="comment-item highlight">
+                        <img src="<%= post.author.avatar %>" alt="<%= post.author.username %> profile picture">
+                        <div>
+                            <strong><%= post.author.username %></strong>
+                            <p><%= post.caption %></p>
+                        </div>
+                    </div>
+
+                    <% if (post.comments && post.comments.length) { %>
+                        <% for (let comment of post.comments) { %>
+                            <div class="comment-item" data-comment-id="<%= comment.id %>">
+                                <img src="<%= comment.commenter && comment.commenter.avatar ? comment.commenter.avatar : '/assets/profile.png' %>" alt="<%= comment.commenter ? comment.commenter.username : 'Commenter' %> profile picture">
+                                <div>
+                                    <strong><%= comment.commenter ? '@' + comment.commenter.username : '@user' %></strong>
+                                    <p><%= comment.text %> <time datetime="<%= comment.createdAt %>"><%= comment.formattedTimestamp %></time></p>
+                                    <% if (comment.canDelete) { %>
+                                        <button type="button" class="delete-comment" data-post-id="<%= post.id %>" data-comment-id="<%= comment.id %>">Delete</button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <div class="comment-item">
+                            <img src="/assets/profile.png" alt="No comments yet">
+                            <div>
+                                <strong>No comments yet</strong>
+                                <p>Be the first to comment.</p>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+
+                <div class="view-actions">
+                    <div class="reaction-row">
+                        <button class="like-button-detail <%= post.liked ? 'liked' : '' %>" type="button" data-post-id="<%= post.id %>" aria-label="Like post" aria-pressed="<%= post.liked %>">
+                            <img src="/assets/asset 51.svg" alt="Like icon">
+                        </button>
+                        <a href="#comment-form" aria-label="Comment on post"><img src="/assets/asset 52.svg" alt=""></a>
+                        <button type="button" class="share-post-button" data-share-url="/home/<%= post.id %>/view" aria-label="Share post"><img src="/assets/asset 54.svg" alt=""></button>
+                    </div>
+                </div>
+
+                <div class="likes-line"><strong><%= post.likesCount %> likes</strong></div>
+
+                <form method="POST" action="/api/posts/<%= post.id %>/comment" class="comment-box" id="comment-form">
+                    <div class="comment-input-wrap">
+                        <img class="mini-avatar" src="<%= currentUser.avatar %>" alt="Your profile picture">
+                        <input type="text" name="text" placeholder="Add a comment..." required>
+                    </div>
+                    <button type="submit" class="comment-submit" aria-label="Submit comment">
+                        <img src="/assets/asset 56.svg" alt="Submit comment">
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <script src="/home.js"></script>
+</body>
+
+</html>

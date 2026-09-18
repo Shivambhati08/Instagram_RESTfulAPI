@@ -1,0 +1,157 @@
+{
+  "users": [
+    {
+      "id": "user-demo-1",
+      "username": "thakurshivam_001",
+      "email": "shivam@example.com",
+      "passwordHash": "$2b$10$oocyea1GfZ4tO59.7QA8KO9jJyjBZhlfGsFYAfN1wHadNiVi/YSF.",
+      "avatar": "/assets/profile.png",
+      "bio": "Building a better social feed.",
+      "createdAt": "2026-09-18T08:38:08.296Z",
+      "name": "thakurshivam_001"
+    },
+    {
+      "id": "user-demo-2",
+      "username": "meher_luthra",
+      "email": "meher@example.com",
+      "passwordHash": "$2b$10$SKdg2GTBQELvY7MzI1O4yeaUCV3.1TarCaKie3GyUZJujheVNUgCC",
+      "avatar": "/assets/pic8.jpeg",
+      "bio": "Travel, coffee, and stories.",
+      "createdAt": "2026-09-18T08:38:08.361Z"
+    },
+    {
+      "id": "user-demo-3",
+      "username": "shradha_khapra",
+      "email": "shradha@example.com",
+      "passwordHash": "$2b$10$lmA2efNAZbEw6N1ouJpvq.fd1.61JmBTLxRbRyiKLUDh7on.iT1vy",
+      "avatar": "/assets/pic9.jpeg",
+      "bio": "A little bit of everything.",
+      "createdAt": "2026-09-18T08:38:08.428Z"
+    },
+    {
+      "id": "user-demo-4",
+      "username": "apna_college",
+      "email": "apna@example.com",
+      "passwordHash": "$2b$10$pnHx9rp/LiEBgaABx4CUc.xZlusPvby44onAuOpQ/0BZQV7JHhvKu",
+      "avatar": "/assets/pic10.png",
+      "bio": "Learning, building, sharing.",
+      "createdAt": "2026-09-18T08:38:08.495Z"
+    },
+    {
+      "id": "3f113ce2-7a50-4ecd-968e-d2cb0501f4dd",
+      "username": "yami2010",
+      "email": "shivamthakur237613@gmail.com",
+      "passwordHash": "$2b$10$I9sRz9EVsCSvJ6cuZiPyaOA8vzwVmJzHK5RijIvvG373nvMqQrgBi",
+      "avatar": "/assets/profile.png",
+      "bio": "New to Instagram Clone.",
+      "createdAt": "2026-09-18T08:41:13.899Z"
+    }
+  ],
+  "posts": [
+    {
+      "id": "4db2f097-7b09-4830-972d-0e663ad45c2f",
+      "authorId": "0053d657-f9d3-4ea6-91f3-64cac052d3ff",
+      "imageUrl": "/uploads/1789728101767-533893971.jpeg",
+      "caption": "Shivam Thakur",
+      "createdAt": "2026-09-18T10:41:41.778Z",
+      "likes": [],
+      "comments": []
+    },
+    {
+      "id": "19642e45-3620-4c0d-a3a7-6359b1621c23",
+      "authorId": "a122f7e3-8546-419e-bc8a-1eafae92bba4",
+      "imageUrl": "/uploads/1789727176549-293803479.jpeg",
+      "caption": "Shivam Thakur...",
+      "createdAt": "2026-09-18T10:26:16.554Z",
+      "likes": [],
+      "comments": []
+    },
+    {
+      "id": "post-demo-1",
+      "authorId": "user-demo-1",
+      "imageUrl": "/assets/post1.jpeg",
+      "caption": "Building my dream social app one feature at a time.",
+      "createdAt": "2026-09-18T08:38:08.495Z",
+      "likes": [
+        "user-demo-3",
+        "3f113ce2-7a50-4ecd-968e-d2cb0501f4dd",
+        "user-demo-2"
+      ],
+      "comments": [
+        {
+          "id": "comment-demo-1",
+          "userId": "user-demo-2",
+          "text": "Looks great!",
+          "createdAt": "2026-09-18T08:38:08.495Z"
+        }
+      ]
+    },
+    {
+      "id": "post-demo-2",
+      "authorId": "user-demo-2",
+      "imageUrl": "/assets/post2.jpeg",
+      "caption": "New city, new stories, same energy.",
+      "createdAt": "2026-09-18T07:38:08.495Z",
+      "likes": [
+        "user-demo-1"
+      ],
+      "comments": []
+    },
+    {
+      "id": "post-demo-3",
+      "authorId": "user-demo-3",
+      "imageUrl": "/assets/post3.jpg",
+      "caption": "Small wins add up.",
+      "createdAt": "2026-09-18T06:38:08.495Z",
+      "likes": [
+        "user-demo-1",
+        "user-demo-4"
+      ],
+      "comments": []
+    }
+  ],
+  "follows": [
+    {
+      "id": "follow-demo-2",
+      "followerId": "user-demo-1",
+      "followingId": "user-demo-3"
+    },
+    {
+      "id": "dd73c417-b4ed-4add-a05d-1894ae2a37b8",
+      "followerId": "3f113ce2-7a50-4ecd-968e-d2cb0501f4dd",
+      "followingId": "user-demo-1"
+    },
+    {
+      "id": "183d7e10-ed5b-4a60-a048-64f6b2449886",
+      "followerId": "3f113ce2-7a50-4ecd-968e-d2cb0501f4dd",
+      "followingId": "user-demo-2"
+    },
+    {
+      "id": "16f09501-15e9-4569-b02c-687bd2613597",
+      "followerId": "3f113ce2-7a50-4ecd-968e-d2cb0501f4dd",
+      "followingId": "user-demo-4"
+    },
+    {
+      "id": "ee5656e9-cf63-46f0-9cc3-19daa086b2c2",
+      "followerId": "user-demo-1",
+      "followingId": "user-demo-2"
+    },
+    {
+      "id": "f74183fd-7dd9-4d83-9337-ecb0620458e3",
+      "followerId": "91861e41-3c99-42fb-bbb7-3d2ab3d64e3d",
+      "followingId": "3f113ce2-7a50-4ecd-968e-d2cb0501f4dd"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "c7f9ad99-ef02-4f68-95de-093d1612aa46",
+      "recipientId": "3f113ce2-7a50-4ecd-968e-d2cb0501f4dd",
+      "actorId": "91861e41-3c99-42fb-bbb7-3d2ab3d64e3d",
+      "type": "follow",
+      "postId": null,
+      "commentId": null,
+      "read": false,
+      "createdAt": "2026-09-18T10:31:25.195Z"
+    }
+  ]
+}

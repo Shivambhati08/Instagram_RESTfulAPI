@@ -1,0 +1,31 @@
+{
+  "name": "majorproject1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "migrate:users": "node migrate-users.js",
+    "seed:posts": "node seed-posts.js",
+    "test": "node --check index.js && node --check database.js && node --check dataStore.js && node --check models/User.js && node --check models/Post.js && node --check migrate-users.js && node --check seed-posts.js && node --check public/home.js && node --check public/login.js && node --check public/facebook.js && node --check public/profile.js && node --check public/search.js && node --check public/notifications.js",
+    "migrate:images": "node migrate-uploaded-images.js"
+  },
+  "keywords": [],
+  "author": "Vanshika Mittal",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.11.0",
+    "dotenv": "^18.0.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.19.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^9.10.1",
+    "multer": "^2.4.0",
+    "passport": "^0.7.0",
+    "passport-facebook": "^3.0.0",
+    "uuid": "^9.0.0"
+  }
+}

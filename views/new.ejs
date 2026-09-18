@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+    <link rel="stylesheet" href="/new.css">
+</head>
+
+<body>
+    <main class="compose-shell">
+        <section class="compose-card" aria-label="Create a new post">
+            <div class="compose-header">
+                <img class="profile-mini" src="<%= currentUser.avatar || '/assets/profile.png' %>" alt="Your profile picture">
+                <div>
+                    <h2><%= currentUser.username %></h2>
+                </div>
+            </div>
+
+            <% if (error) { %><div class="form-message error"><%= error %></div><% } %>
+
+            <form method="post" action="/home" class="compose-form" enctype="multipart/form-data">
+                <label class="form-label" for="imageUrl">Image URL</label>
+                <input id="imageUrl" type="text" placeholder="Paste an image URL here" name="imageUrl">
+
+                <label class="form-label" for="image">Upload image</label>
+                <input id="image" type="file" name="image" accept="image/*">
+
+                <label class="form-label" for="caption">Caption</label>
+                <textarea id="caption" placeholder="Write a caption..." name="caption" rows="5" maxlength="220" required></textarea>
+
+                <button type="submit" class="share-btn">Share post</button>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>

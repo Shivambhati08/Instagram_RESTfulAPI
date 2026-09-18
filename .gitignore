@@ -1,0 +1,6 @@
+.env
+node_modules/
+data/*.tmp
+data/*.corrupt-*
+public/uploads/*
+!public/uploads/.gitkeep

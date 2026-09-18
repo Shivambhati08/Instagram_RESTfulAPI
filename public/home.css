@@ -1,0 +1,705 @@
+:root {
+    --bg: #fafafa;
+    --card: #ffffff;
+    --panel: #f5f5f5;
+    --border: #dbdbdb;
+    --text: #262626;
+    --muted: #737373;
+    --primary: #0095f6;
+    --danger: #ed4956;
+    --shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+.gradient {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.15));
+}
+
+.brightness {
+    filter: brightness(0.55);
+}
+
+.app-shell {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 18px 48px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.left-sidebar {
+    position: sticky;
+    top: 24px;
+    width: 250px;
+    min-height: calc(100vh - 48px);
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(219, 219, 219, 0.8);
+    border-radius: 24px;
+    padding: 18px 16px;
+    backdrop-filter: blur(4px);
+}
+
+.brand-block {
+    padding: 8px 10px 18px;
+}
+
+#logo {
+    width: 110px;
+    height: auto;
+    object-fit: contain;
+}
+
+.ops-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-item:hover,
+.nav-item:focus-visible {
+    background: #efefef;
+    outline: none;
+}
+
+.disabled-nav-item {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.nav-item.active {
+    background: rgba(0, 0, 0, 0.04);
+    font-weight: 600;
+}
+
+.nav-icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-icon img {
+    width: 22px;
+    height: 22px;
+}
+
+.avatar-wrap {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.profile-link .avatar-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#more {
+    margin-top: 18px;
+}
+
+.main-content {
+    flex: 1;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.feed-status {
+    display: none;
+    position: sticky;
+    top: 12px;
+    z-index: 10;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #e8f7ed;
+    color: #146c2e;
+    font-size: 0.88rem;
+    box-shadow: var(--shadow);
+}
+
+.feed-status.visible {
+    display: block;
+}
+
+.feed-status.error {
+    background: #fff0f0;
+    color: var(--danger);
+}
+
+.feed-skeleton {
+    display: block;
+}
+
+.skeleton-card {
+    height: 220px;
+    margin-bottom: 20px;
+    border-radius: 18px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #fafafa 37%, #f0f0f0 63%);
+    background-size: 400% 100%;
+    animation: skeleton-shimmer 1.4s ease infinite;
+}
+
+.skeleton-card span {
+    display: block;
+}
+
+@keyframes skeleton-shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+.empty-state {
+    padding: 48px 24px;
+    border: 1px dashed var(--border);
+    border-radius: 18px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.empty-state h3 {
+    margin: 0 0 6px;
+    color: var(--text);
+}
+
+.story-div {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 14px 6px 22px;
+    margin-bottom: 8px;
+    scrollbar-width: thin;
+}
+
+.story {
+    min-width: 78px;
+    text-align: center;
+}
+
+.story img {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #f75d79;
+    padding: 2px;
+    background: linear-gradient(135deg, #feda75, #d62976, #4f5bd5);
+    margin: 0 auto 8px;
+}
+
+.story span {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.post-card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 28px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+}
+
+.user-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.person {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-details h4 {
+    margin: 0;
+    font-size: 0.96rem;
+    font-weight: 600;
+}
+
+.post-details time,
+.comment-row time {
+    color: var(--muted);
+    font-size: 0.76rem;
+}
+
+.post-location {
+    display: block;
+    color: var(--muted);
+    font-size: 0.74rem;
+}
+
+.three-dot {
+    border: none;
+    background: transparent;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.three-dot:hover,
+.three-dot:focus-visible {
+    background: rgba(0, 0, 0, 0.05);
+    outline: none;
+}
+
+.three-dot img {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.optionsForU {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(420px, calc(100vw - 32px));
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(219, 219, 219, 0.9);
+    border-radius: 18px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.optionsForU.invisible {
+    display: none;
+}
+
+.optionsForU a,
+.optionsForU .menu-action,
+.optionsForU .disabled-menu-action {
+    width: 100%;
+    padding: 14px 18px;
+    text-align: center;
+    color: var(--text);
+    background: transparent;
+    border: none;
+    font-size: 0.97rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.optionsForU .disabled-menu-action {
+    display: block;
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.optionsForU a:hover,
+.optionsForU .menu-action:hover,
+.optionsForU a:focus-visible,
+.optionsForU .menu-action:focus-visible {
+    background: rgba(0, 0, 0, 0.03);
+    outline: none;
+}
+
+.optionsForU .danger {
+    color: var(--danger);
+    font-weight: 600;
+}
+
+.optionsForU hr {
+    border: 0;
+    border-top: 1px solid rgba(219, 219, 219, 0.9);
+    margin: 0;
+}
+
+.post-media {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.post-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    background: #f0f0f0;
+}
+
+.post-media .missing-image {
+    width: 100%;
+}
+
+/* The fallback must stay hidden while the real post image is loaded.
+   A normal .missing-image display rule otherwise overrides the HTML hidden attribute. */
+.missing-image[hidden] {
+    display: none !important;
+}
+
+.post-body {
+    padding: 12px 16px 18px;
+}
+
+.reactions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.reaction-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reaction-icons form,
+.reaction-icons a {
+    display: flex;
+}
+
+.share-post-button {
+    display: flex;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.like-button,
+.comment-form button,
+.follow-button {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.like-button:disabled,
+.comment-form button:disabled,
+.follow-button:disabled,
+.delete-comment:disabled {
+    cursor: wait;
+    opacity: 0.55;
+}
+
+.like-button.liked img,
+.like-button-detail.liked img {
+    filter: invert(27%) sepia(99%) saturate(3024%) hue-rotate(337deg) brightness(92%);
+}
+
+.reaction-icons img,
+.save-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.like-count {
+    margin: 0 0 8px;
+    font-size: 0.98rem;
+}
+
+.caption p {
+    margin: 0;
+}
+
+.caption .muted-link,
+.caption .muted-text {
+    color: var(--muted);
+}
+
+.caption .muted-link {
+    margin-top: 6px;
+    cursor: pointer;
+}
+
+.caption .muted-text {
+    margin-top: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.comment-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--muted);
+    border-top: 1px solid rgba(219, 219, 219, 0.8);
+    padding-top: 10px;
+    margin-top: 4px;
+}
+
+.comment-box img {
+    width: 18px;
+    height: 18px;
+}
+
+.comment-form input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    outline: none;
+}
+
+.comment-row {
+    overflow-wrap: anywhere;
+}
+
+.delete-comment {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.72rem;
+}
+
+.missing-image {
+    display: grid;
+    min-height: 180px;
+    place-items: center;
+    background: #f0f0f0;
+    color: var(--muted);
+    font-size: 0.86rem;
+}
+
+.logout-button {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
+.right-sidebar {
+    width: 300px;
+    position: sticky;
+    top: 24px;
+    padding-top: 8px;
+}
+
+.profile-summary,
+.friend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.profile-summary .pic,
+.friend-item .pic {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-summary-text {
+    flex: 1;
+    font-size: 0.95rem;
+}
+
+.profile-summary a,
+.friend-item a,
+.suggestions-header a {
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.suggestions-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 18px 0 12px;
+}
+
+.suggestions-header h4 {
+    margin: 0;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.friend-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.friend-details h4 {
+    margin: 0 0 4px;
+    font-size: 0.92rem;
+}
+
+.friend-details span {
+    color: var(--muted);
+    font-size: 0.72rem;
+    display: block;
+}
+
+@media (max-width: 1100px) {
+    .right-sidebar {
+        display: none;
+    }
+
+    .main-content {
+        max-width: 680px;
+    }
+}
+
+@media (max-width: 820px) {
+    .app-shell {
+        padding: 14px 12px 94px;
+        gap: 12px;
+    }
+
+    .left-sidebar {
+        width: 84px;
+        min-height: auto;
+        padding: 12px 8px;
+    }
+
+    #logo {
+        width: 72px;
+    }
+
+    .nav-item {
+        justify-content: center;
+        padding: 12px 8px;
+    }
+
+    .nav-item span:last-child {
+        display: none;
+    }
+
+    .main-content {
+        max-width: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .app-shell {
+        display: block;
+        padding-bottom: 94px;
+    }
+
+    .left-sidebar {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        top: auto;
+        width: auto;
+        min-height: auto;
+        z-index: 50;
+        padding: 10px 12px;
+        border-radius: 18px;
+    }
+
+    .ops-list {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 6px;
+        margin-top: 0;
+    }
+
+    .nav-item {
+        flex: 1;
+        padding: 10px 8px;
+    }
+
+    .brand-block {
+        display: none;
+    }
+
+    .main-content {
+        padding-top: 0;
+    }
+
+    .story-div {
+        padding: 8px 2px 16px;
+    }
+
+    .post-card {
+        border-radius: 14px;
+    }
+
+    .post-body {
+        padding-inline: 12px;
+    }
+
+    .post-image {
+        height: auto;
+    }
+
+    .missing-image {
+        min-height: 180px;
+    }
+}

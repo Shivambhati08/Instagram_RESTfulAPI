@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/home.css">
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="left-sidebar" aria-label="Main navigation">
+            <div class="brand-block">
+                <img id="logo" src="/assets/ig.png" alt="Instagram logo">
+            </div>
+
+            <nav class="ops-list" aria-label="Navigation menu">
+                <a href="/home" class="nav-item active"><span class="nav-icon"><img src="/assets/asset 41.svg" alt=""></span><span>Home</span></a>
+                <a href="/search" class="nav-item"><span class="nav-icon"><img src="/assets/asset 42.svg" alt=""></span><span>Search</span></a>
+                <a href="/explore" class="nav-item"><span class="nav-icon"><img src="/assets/asset 43.svg" alt=""></span><span>Explore</span></a>
+                <span class="nav-item disabled-nav-item" aria-disabled="true"><span class="nav-icon"><img src="/assets/asset 44.svg" alt=""></span><span>Reels</span></span>
+                <span class="nav-item disabled-nav-item" aria-disabled="true"><span class="nav-icon"><img src="/assets/asset 45.svg" alt=""></span><span>Messages</span></span>
+                <a href="/notifications" class="nav-item notification-link"><span class="nav-icon"><img src="/assets/asset 46.svg" alt=""></span><span>Notifications</span><% if (unreadNotifications) { %><b class="notification-badge"><%= unreadNotifications %></b><% } %></a>
+                <a href="/new" class="nav-item"><span class="nav-icon"><img src="/assets/asset 47.svg" alt=""></span><span>Create</span></a>
+                <a href="/profile/<%= currentUser.username %>" class="nav-item profile-link"><span class="nav-icon avatar-wrap"><img src="<%= currentUser.avatar %>" alt="Profile picture"></span><span>Profile</span></a>
+                <form method="POST" action="/logout">
+                    <button type="submit" id="more" class="nav-item logout-button"><span class="nav-icon"><img src="/assets/asset 48.svg" alt=""></span><span>Logout</span></button>
+                </form>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="feed-status" role="status" aria-live="polite"></div>
+            <div class="feed-skeleton" aria-hidden="true">
+                <div class="skeleton-card"><span></span><span></span><span></span></div>
+                <div class="skeleton-card"><span></span><span></span><span></span></div>
+            </div>
+            <div class="search-box-inline">
+                <form method="GET" action="/search" class="search-form">
+                    <input type="text" name="q" placeholder="Search users" value="<%= typeof query !== 'undefined' ? query : '' %>">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+
+            <!-- Stories are separate from feed posts. Only user profile avatars are used here. -->
+            <div class="story-div" aria-label="Stories">
+                <% for (let storyUser of suggestions.slice(0, 7)) { %>
+                    <a class="story" href="/profile/<%= storyUser.username %>" aria-label="View <%= storyUser.username %> story">
+                        <img src="<%= storyUser.avatar %>" alt="<%= storyUser.username %> profile picture">
+                        <span><%= storyUser.username.length > 9 ? storyUser.username.slice(0, 8) + '...' : storyUser.username %></span>
+                    </a>
+                <% } %>
+            </div>
+
+            <% if (!posts || posts.length === 0) { %>
+                <div class="empty-state">
+                    <h3>No posts yet</h3>
+                    <p>Follow people or create your first post.</p>
+                </div>
+            <% } else { %>
+                <% for (let post of posts) { %>
+                    <article class="post-card" data-post-id="<%= post.id %>" aria-label="Post by <%= post.author.username %>">
+                        <header class="post-header">
+                            <div class="user-meta">
+                                <img src="<%= post.author.avatar %>" class="person" alt="<%= post.author.username %> profile picture">
+                                <div class="post-details">
+                                    <h4><%= post.author.username %></h4>
+                                    <% if (post.location) { %><span class="post-location"><%= post.location %></span><% } %>
+                                    <time datetime="<%= post.createdAt %>"><%= post.formattedTimestamp %></time>
+                                </div>
+                            </div>
+                            <button class="three-dot" type="button" aria-label="Open post actions">
+                                <img src="/assets/asset 49.svg" alt="more options">
+                            </button>
+                        </header>
+
+                        <% if (post.authorId === currentUser.id) { %>
+                            <div class="optionsForU" aria-label="Post actions menu">
+                                <form method="post" action="/home/<%= post.id %>?_method=DELETE" data-delete-post-form>
+                                    <button type="submit" class="menu-action danger">Delete</button>
+                                </form>
+                                <hr>
+                                <a href="/home/<%= post.id %>/edit">Edit</a>
+                                <hr>
+                                <a href="/home/<%= post.id %>/view">Go to Post</a>
+                                <hr>
+                                <a href="#" class="cancel-link" id="cancel">Cancel</a>
+                            </div>
+                        <% } else { %>
+                            <div class="optionsForU" aria-label="Post actions menu">
+                                <span class="disabled-menu-action danger" aria-disabled="true">Report unavailable</span>
+                                <hr>
+                                <form method="POST" action="/api/users/<%= post.author.id %>/follow">
+                                    <button type="submit" class="menu-action follow-button danger">Unfollow</button>
+                                </form>
+                                <hr>
+                                <a href="/home/<%= post.id %>/view">Go to Post</a>
+                                <hr>
+                                <a href="#" class="cancel-link" id="cancel">Cancel</a>
+                            </div>
+                        <% } %>
+
+                        <div class="post-media">
+                            <% if (post.imageUrl) { %>
+                                <img
+                                    class="post-image"
+                                    src="<%= post.imageUrl %>"
+                                    alt="<%= post.author.username %> post image"
+                                    loading="lazy"
+                                    onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+                                >
+                                <div class="missing-image" hidden>No image available</div>
+                            <% } else { %>
+                                <div class="missing-image">No image available</div>
+                            <% } %>
+                        </div>
+
+                        <div class="post-body">
+                            <div class="reactions">
+                                <div class="reaction-icons">
+                                    <form method="POST" action="/api/posts/<%= post.id %>/like">
+                                        <button type="submit" class="like-button <%= post.liked ? 'liked' : '' %>" aria-label="Like post" aria-pressed="<%= post.liked %>">
+                                            <img src="/assets/asset 51.svg" alt="Like icon">
+                                        </button>
+                                    </form>
+                                    <a href="/home/<%= post.id %>/view" aria-label="Comment on post">
+                                        <img src="/assets/asset 52.svg" alt="Comment icon">
+                                    </a>
+                                    <button type="button" class="share-post-button" data-share-url="/home/<%= post.id %>/view" aria-label="Share post"><img src="/assets/asset 54.svg" alt=""></button>
+                                </div>
+                                <div class="save-icon">
+                                    <img src="/assets/asset 55.svg" alt="Save post">
+                                </div>
+                            </div>
+
+                            <h4 class="like-count"><%= post.likesCount %> likes</h4>
+
+                            <div class="caption">
+                                <p><strong><%= post.author.username %></strong> <%= post.caption %></p>
+                                <p class="muted-link"><a href="/home/<%= post.id %>/view">View all comments</a></p>
+                                <div class="comments-preview">
+                                    <% if (post.comments && post.comments.length > 0) { %>
+                                        <% for (let comment of post.comments.slice(0, 2)) { %>
+                                            <p class="comment-row" data-comment-id="<%= comment.id %>"><strong><%= comment.commenter ? comment.commenter.username : 'Deleted user' %></strong> <%= comment.text %> <time datetime="<%= comment.createdAt %>"><%= comment.formattedTimestamp %></time><% if (comment.canDelete) { %> <button type="button" class="delete-comment" data-post-id="<%= post.id %>" data-comment-id="<%= comment.id %>" aria-label="Delete comment">Delete</button><% } %></p>
+                                        <% } %>
+                                    <% } else { %>
+                                        <p class="muted-text">No comments yet.</p>
+                                    <% } %>
+                                </div>
+                                <form method="POST" action="/api/posts/<%= post.id %>/comment" class="comment-form" data-busy="false">
+                                    <input type="text" name="text" placeholder="Add a comment..." required>
+                                    <button type="submit" aria-label="Submit comment">
+                                        <img src="/assets/asset 56.svg" alt="Submit comment">
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                <% } %>
+            <% } %>
+        </main>
+
+        <aside class="right-sidebar" aria-label="Suggested accounts">
+            <div class="profile-summary">
+                <img class="pic" src="<%= currentUser.avatar %>" alt="Your profile picture">
+                <div class="profile-summary-text">
+                    <strong><%= currentUser.username %></strong>
+                </div>
+                <a href="/profile/<%= currentUser.username %>">Profile</a>
+            </div>
+
+            <div class="suggestions-header">
+                <h4>Suggested for you</h4>
+                <a href="/search?q=">See All</a>
+            </div>
+
+            <% for (let user of suggestions.slice(0, 5)) { %>
+                <div class="friend-item">
+                    <img class="pic" src="<%= user.avatar %>" alt="<%= user.username %> profile picture">
+                    <div class="friend-details">
+                        <h4><%= user.username %></h4>
+                        <span>Suggested for you</span>
+                    </div>
+                    <form method="POST" action="/api/users/<%= user.id %>/follow">
+                        <button type="submit" class="follow-button">Follow</button>
+                    </form>
+                </div>
+            <% } %>
+        </aside>
+    </div>
+
+    <script src="/home.js"></script>
+</body>
+
+</html>

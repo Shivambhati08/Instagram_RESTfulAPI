@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search | Instagram</title>
+    <link rel="stylesheet" href="/search.css" />
+</head>
+<body>
+    <main class="discovery-shell">
+        <header class="discovery-header">
+            <a class="discovery-brand" href="/home">Instagram</a>
+            <nav aria-label="Discovery navigation">
+                <a class="active" href="/search">Search</a>
+                <a href="/explore">Explore</a>
+                <a href="/profile/<%= currentUser.username %>"><img src="<%= currentUser.avatar || '/assets/profile.png' %>" alt="Your profile"></a>
+            </nav>
+        </header>
+
+        <section class="search-panel" aria-label="Search users">
+            <h1>Find people</h1>
+            <form method="GET" action="/search" class="user-search-form">
+                <label for="q">Search by username or name</label>
+                <div class="search-input-row">
+                    <input id="q" type="search" name="q" value="<%= query %>" placeholder="Search people" autocomplete="off">
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+            <div class="discovery-loading" aria-live="polite" hidden>Searching...</div>
+        </section>
+
+        <% if (error) { %>
+            <p class="discovery-message error"><%= error %></p>
+        <% } else if (!query) { %>
+            <p class="discovery-message">Search for a username or name to find people.</p>
+        <% } else if (!results.length) { %>
+            <p class="discovery-message">No users matched &ldquo;<%= query %>&rdquo;.</p>
+        <% } else { %>
+            <section class="user-results" aria-label="Search results">
+                <% for (let user of results) { %>
+                    <article class="user-result">
+                        <a class="user-result-main" href="/profile/<%= user.username %>">
+                            <img src="<%= user.avatar || '/assets/profile.png' %>" alt="<%= user.username %> profile picture">
+                            <span><strong><%= user.username %></strong><small><%= user.name || user.username %></small><small><%= user.bio || 'Instagram user' %></small></span>
+                        </a>
+                        <form method="POST" action="/api/users/<%= user.id %>/follow" class="search-follow-form">
+                            <button class="follow-button" type="submit"><%= user.isFollowing ? 'Following' : 'Follow' %></button>
+                        </form>
+                    </article>
+                <% } %>
+            </section>
+        <% } %>
+    </main>
+    <script src="/search.js"></script>
+</body>
+</html>

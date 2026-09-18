@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="/new.css" />
+    <link rel="stylesheet" href="/profile.css" />
+</head>
+<body>
+    <main class="compose-shell">
+        <section class="compose-card" aria-label="Edit profile">
+            <div class="compose-header">
+                <img class="profile-mini" src="<%= currentUser.avatar || '/assets/profile.png' %>" alt="Your profile picture">
+                <div><h2>Edit profile</h2><p class="profile-muted">Update your name, bio, or profile picture.</p></div>
+            </div>
+            <% if (error) { %><div class="form-message error"><%= error %></div><% } %>
+            <form method="POST" action="/profile/edit" enctype="multipart/form-data" class="compose-form">
+                <label class="form-label" for="name">Name</label>
+                <input id="name" name="name" value="<%= currentUser.name || currentUser.username %>" maxlength="80" required>
+                <label class="form-label" for="bio">Bio</label>
+                <textarea id="bio" name="bio" maxlength="160" rows="5"><%= currentUser.bio || '' %></textarea>
+                <label class="form-label" for="avatar">Profile picture</label>
+                <input id="avatar" name="avatar" type="file" accept="image/*">
+                <div id="upload-error" class="form-message error" hidden></div>
+                <button class="share-btn" type="submit">Save profile</button>
+            </form>
+            <a href="/profile/<%= currentUser.username %>" class="profile-back-link">Cancel</a>
+            <form method="POST" action="/account" class="delete-account-form" data-delete-account>
+                <button type="submit" class="delete-account-button">Delete account</button>
+            </form>
+        </section>
+    </main>
+    <script>
+        document.querySelector("form").addEventListener("submit", (event) => {
+            const file = document.querySelector("#avatar").files[0];
+            const error = document.querySelector("#upload-error");
+            if (file && file.size > 5 * 1024 * 1024) {
+                event.preventDefault();
+                error.textContent = "Profile image must be 5 MB or smaller.";
+                error.hidden = false;
+            }
+        });
+
+        document.querySelector("[data-delete-account]").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (!window.confirm("Delete your account permanently?")) return;
+            const button = event.currentTarget.querySelector("button");
+            button.disabled = true;
+            try {
+                const response = await fetch("/account", { method: "DELETE", headers: { Accept: "application/json" } });
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(data.error || "Unable to delete account.");
+                window.location.assign(data.redirect || "/login");
+            } catch (error) {
+                button.disabled = false;
+                window.alert(error.message);
+            }
+        });
+    </script>
+</body>
+</html>

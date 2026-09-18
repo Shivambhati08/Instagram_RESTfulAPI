@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= profileUser.username %>'s Profile</title>
+    <link rel="stylesheet" href="/new.css" />
+    <link rel="stylesheet" href="/profile.css" />
+</head>
+<body>
+    <main class="profile-shell">
+        <header class="profile-topbar">
+            <a href="/home" class="profile-brand">Instagram</a>
+            <nav aria-label="Profile navigation">
+                <a href="/home">Home</a>
+                <a href="/search">Search</a>
+                <form method="POST" action="/logout"><button type="submit">Log out</button></form>
+            </nav>
+        </header>
+
+        <section class="profile-card" aria-label="User profile">
+            <div class="profile-heading">
+                <img class="profile-avatar" src="<%= profileUser.avatar || '/assets/profile.png' %>" alt="<%= profileUser.username %> profile picture">
+                <div class="profile-identity">
+                    <div class="profile-title-row">
+                        <h1><%= profileUser.username %></h1>
+                        <% if (isOwner) { %>
+                            <a class="profile-action" href="/profile/edit">Edit profile</a>
+                        <% } else { %>
+                            <form method="POST" action="/api/users/<%= profileUser.id %>/follow" class="profile-follow-form">
+                                <button class="profile-action follow-button" type="submit"><%= isFollowing ? 'Following' : 'Follow' %></button>
+                            </form>
+                        <% } %>
+                    </div>
+                    <p class="profile-name"><%= profileUser.name || profileUser.username %></p>
+                    <p class="profile-bio"><%= profileUser.bio || 'No bio yet.' %></p>
+                </div>
+            </div>
+
+            <div class="profile-stats" aria-label="Profile statistics">
+                <div><strong><%= stats.postCount %></strong><span>posts</span></div>
+                <button type="button" class="stat-button" data-list-target="followers-list"><strong data-followers-count><%= stats.followers %></strong><span>followers</span></button>
+                <button type="button" class="stat-button" data-list-target="following-list"><strong data-following-count><%= stats.following %></strong><span>following</span></button>
+            </div>
+
+            <div class="connection-panel" id="followers-list" hidden>
+                <h2>Followers</h2>
+                <% if (connections.followers.length) { %>
+                    <% for (let user of connections.followers) { %>
+                        <a class="connection-row" href="/profile/<%= user.username %>">
+                            <img src="<%= user.avatar || '/assets/profile.png' %>" alt="">
+                            <span><strong><%= user.username %></strong><small><%= user.name || user.username %></small></span>
+                        </a>
+                    <% } %>
+                <% } else { %><p class="profile-muted">No followers yet.</p><% } %>
+            </div>
+
+            <div class="connection-panel" id="following-list" hidden>
+                <h2>Following</h2>
+                <% if (connections.following.length) { %>
+                    <% for (let user of connections.following) { %>
+                        <a class="connection-row" href="/profile/<%= user.username %>">
+                            <img src="<%= user.avatar || '/assets/profile.png' %>" alt="">
+                            <span><strong><%= user.username %></strong><small><%= user.name || user.username %></small></span>
+                        </a>
+                    <% } %>
+                <% } else { %><p class="profile-muted">Not following anyone yet.</p><% } %>
+            </div>
+
+            <section class="post-grid" aria-label="User posts">
+                <% if (posts.length) { %>
+                    <% for (let post of posts) { %>
+                        <a href="/home/<%= post.id %>/view" class="profile-post">
+                            <% if (post.imageUrl) { %>
+                                <img src="<%= post.imageUrl %>" alt="Post by <%= profileUser.username %>" onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
+                            <% } %>
+                            <span class="profile-missing-image" <%= post.imageUrl ? 'hidden' : '' %>>No image</span>
+                        </a>
+                    <% } %>
+                <% } else { %>
+                    <div class="profile-empty">
+                        <h2>No posts yet</h2>
+                        <% if (isOwner) { %><a href="/new">Create your first post</a><% } %>
+                    </div>
+                <% } %>
+            </section>
+        </section>
+    </main>
+    <script src="/profile.js"></script>
+</body>
+</html>

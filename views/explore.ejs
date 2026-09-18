@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore | Instagram</title>
+    <link rel="stylesheet" href="/explore.css" />
+</head>
+<body>
+    <main class="explore-shell">
+        <header class="explore-header">
+            <a class="explore-brand" href="/home">Instagram</a>
+            <nav aria-label="Explore navigation">
+                <a href="/search">Search</a>
+                <a class="active" href="/explore">Explore</a>
+                <a href="/profile/<%= currentUser.username %>"><img src="<%= currentUser.avatar || '/assets/profile.png' %>" alt="Your profile"></a>
+            </nav>
+        </header>
+        <div class="explore-heading"><h1>Explore</h1><p>Discover posts from the community.</p></div>
+        <div class="explore-loading" aria-live="polite">Loading posts...</div>
+        <% if (error) { %>
+            <p class="explore-message error"><%= error %></p>
+        <% } else if (!posts.length) { %>
+            <p class="explore-message">No posts to explore yet.</p>
+        <% } else { %>
+            <section class="explore-grid" aria-label="Explore posts">
+                <% for (let post of posts) { %>
+                    <a class="explore-tile" href="/home/<%= post.id %>/view" aria-label="Post by <%= post.author.username %>">
+                        <% if (post.imageUrl) { %>
+                            <img src="<%= post.imageUrl %>" alt="Post by <%= post.author.username %>" onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
+                        <% } %>
+                        <span class="explore-missing-image" <%= post.imageUrl ? 'hidden' : '' %>>No image</span>
+                        <span class="explore-overlay"><strong><%= post.author.username %></strong><span><%= post.likesCount %> likes</span></span>
+                    </a>
+                <% } %>
+            </section>
+        <% } %>
+    </main>
+    <script>
+        window.addEventListener("load", () => {
+            const loading = document.querySelector(".explore-loading");
+            if (loading) loading.hidden = true;
+        });
+    </script>
+</body>
+</html>

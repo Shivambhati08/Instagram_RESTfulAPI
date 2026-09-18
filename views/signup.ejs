@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instagram Sign Up</title>
+    <link rel="stylesheet" href="/login.css" />
+</head>
+<body>
+    <main class="login-page">
+        <section class="auth-card" aria-label="Sign up form">
+            <div class="logo-wrap">
+                <img src="/assets/ig.png" alt="Instagram logo" />
+            </div>
+
+            <% if (error) { %>
+                <div class="form-message error"><%= error %></div>
+            <% } %>
+
+            <form method="POST" action="/signup" class="auth-form">
+                <label class="input-field">
+                    <span class="sr-only">Username</span>
+                    <input type="text" name="username" placeholder="Username" required />
+                </label>
+
+                <label class="input-field">
+                    <span class="sr-only">Email</span>
+                    <input type="email" name="email" placeholder="Email" required />
+                </label>
+
+                <label class="input-field">
+                    <span class="sr-only">Password</span>
+                    <input type="password" name="password" placeholder="Password" required />
+                </label>
+
+                <button type="submit" class="btn">Sign up</button>
+            </form>
+
+            <div class="or-divider" aria-label="Or separator">
+                <span class="line"></span>
+                <p>OR</p>
+                <span class="line"></span>
+            </div>
+
+            <a class="facebook-login" href="/auth/facebook" data-facebook-login>
+                <img src="/assets/fb.png" alt="Facebook logo">
+                <span>Continue with Facebook</span>
+            </a>
+        </section>
+
+        <section class="signup-card">
+            <p>Already have an account? <a href="/login">Log in</a></p>
+        </section>
+    </main>
+</body>
+<script src="/facebook.js"></script>
+</html>
